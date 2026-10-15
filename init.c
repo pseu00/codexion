@@ -50,6 +50,7 @@ int inizializzazione_dati(t_sim *sim)
         sim->array_coders[i].num_compilazioni = 0;
         sim->array_coders[i].sim = sim;
         sim->array_coders[i].dongle_sinistro = &sim->array_dongles[i];
+        sim->array_coders[i].dongle_destro = &sim->array_dongles[i + 1] % sim->num_coders;
         i++;
 
     }
