@@ -1,69 +1,65 @@
 #include "struct.h"
-#include <stdio.h>
-#include <pthread.h>
-#include <sys/time.h>
 
-
-
-
-
-int main(int argc, char **argv)
+/* usata solo se la creazione di un thread fallisce */
+static void	ferma_simulazione(t_sim *sim)
 {
-    t_sim sim;
-    int i;
-    pthread_t thread_monitor;
+	pthread_mutex_lock(&sim->stato_mutex);
+	sim->sim_finita = 1;
+	pthread_mutex_unlock(&sim->stato_mutex);
+	pthread_mutex_lock(&sim->queue_mutex);
+	pthread_cond_broadcast(&sim->queue_cond);
+	pthread_mutex_unlock(&sim->queue_mutex);
+}
 
-    if (controllo_argomenti(argc, argv, &sim) != 0)
-        return (1);
+static int	crea_coders(t_sim *sim)
+{
+	int	i;
 
-    if (allocazione_memoria(&sim) != 0)
-        return (1);
+	i = 0;
+	while (i < sim->num_coders)
+	{
+		if (pthread_create(&sim->array_coders[i].thread, NULL, organizza,
+				&sim->array_coders[i]) != 0)
+			return (i);
+		i++;
+	}
+	return (i);
+}
 
-    if (inizializzazione_dati(&sim) != 0)
-        return (1);
+static void	unisci_coders(t_sim *sim, int quanti)
+{
+	int	i;
 
-    i = 0;
-    while (i < sim.num_coders)
-    {
-        if (pthread_create(&sim.array_coders[i].thread, NULL, organizza, &sim.array_coders[i]) != 0)
-        {
-            printf("Errore: impossibile creare il thread\n");
-            return (1);
-        }
-        i++;
-    }
+	i = 0;
+	while (i < quanti)
+	{
+		pthread_join(sim->array_coders[i].thread, NULL);
+		i++;
+	}
+}
 
-    if (pthread_create(&thread_monitor, NULL, controllo_burnout, &sim) != 0)
-    {
-        printf("Errore: impossibile creare il monitor\n");
-        return (1);
-    }
+int	main(int argc, char **argv)
+{
+	t_sim		sim;
+	pthread_t	thread_monitor;
+	int			creati;
+	int			errore;
 
-    pthread_join(thread_monitor, NULL);
-
-    i = 0; 
-    while (i < sim.num_coders)
-    {
-        pthread_join(sim.array_coders[i].thread, NULL);
-        i++;
-    }
-
-
-    pthread_mutex_destroy(&sim.print_mutex);
-    pthread_mutex_destroy(&sim.queue_mutex);
-    pthread_cond_destroy(&sim.queue_cond);
-
-    i = 0;
-    while (i < sim.num_coders)
-    {
-        pthread_mutex_destroy(&sim.array_dongles[i].mutex);
-        pthread_cond_destroy(&sim.array_dongles[i].cond);
-        i++;
-    }
-
-    free(sim.array_coders);
-    free(sim.array_dongles);
-    free(sim.coda_attesa);
-
-    return (0);
+	if (controllo_argomenti(argc, argv, &sim) || allocazione_memoria(&sim))
+		return (1);
+	inizializzazione_dati(&sim);
+	errore = 0;
+	creati = crea_coders(&sim);
+	if (creati == sim.num_coders
+		&& pthread_create(&thread_monitor, NULL, controllo_burnout, &sim) == 0)
+		pthread_join(thread_monitor, NULL);
+	else
+	{
+		fprintf(stderr, "Errore: impossibile creare un thread\n");
+		ferma_simulazione(&sim);
+		errore = 1;
+	}
+	unisci_coders(&sim, creati);
+	libera_memoria(&sim);
+	return (errore);
 }
