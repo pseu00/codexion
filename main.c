@@ -1,38 +1,19 @@
 #include "struct.h"
 #include <stdio.h>
 #include <pthread.h>
-
-void *organizza(void *arg)
-{
-    struct s_coder *coder = (struct s_coder *)arg;
-
-    int counter = 1;
-
-    while (1)
-    {
-        pthread_mutex_lock(&coder->dongle_sinistro->mutex);
-        pthread_mutex_lock(&coder->dongle_destro->mutex);
-        printf("Coder %d ha preso i dongles\n", coder->id);
-        pthread_mutex_unlock(&coder->dongle_sinistro->mutex);
-        pthread_mutex_unlock(&coder->dongle_destro->mutex);
-        printf("Coder %d ha preso i dongles\n", coder->id);
-        counter++;
-
-        if (coder->sim->num_compilazioni != -1 && counter >= coder->sim->num_compilazioni)
-        break;
-
-    }
+#include <sys/time.h>
 
 
-    return NULL;
-}
+
+
 
 int main(int argc, char **argv)
 {
     t_sim sim;
-    
+    int i;
+    pthread_t thread_monitor;
 
-    if (controlla_argomenti(argc, argv, &sim) != 0)
+    if (controllo_argomenti(argc, argv, &sim) != 0)
         return (1);
 
     if (allocazione_memoria(&sim) != 0)
@@ -41,7 +22,6 @@ int main(int argc, char **argv)
     if (inizializzazione_dati(&sim) != 0)
         return (1);
 
-    int i;   
     i = 0;
     while (i < sim.num_coders)
     {
@@ -53,12 +33,37 @@ int main(int argc, char **argv)
         i++;
     }
 
+    if (pthread_create(&thread_monitor, NULL, controllo_burnout, &sim) != 0)
+    {
+        printf("Errore: impossibile creare il monitor\n");
+        return (1);
+    }
+
+    pthread_join(thread_monitor, NULL);
+
     i = 0; 
     while (i < sim.num_coders)
     {
         pthread_join(sim.array_coders[i].thread, NULL);
         i++;
     }
+
+
+    pthread_mutex_destroy(&sim.print_mutex);
+    pthread_mutex_destroy(&sim.queue_mutex);
+    pthread_cond_destroy(&sim.queue_cond);
+
+    i = 0;
+    while (i < sim.num_coders)
+    {
+        pthread_mutex_destroy(&sim.array_dongles[i].mutex);
+        pthread_cond_destroy(&sim.array_dongles[i].cond);
+        i++;
+    }
+
+    free(sim.array_coders);
+    free(sim.array_dongles);
+    free(sim.coda_attesa);
 
     return (0);
 }
