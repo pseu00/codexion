@@ -1,4 +1,4 @@
-*This project has been created as part of the 42 curriculum by <login>.*
+*This project has been created as part of the 42 curriculum by <enucci>.*
 
 # Codexion
 
@@ -76,6 +76,3 @@ Rules: `make`, `make clean`, `make fclean`, `make re`.
 - Coffman, Elphick, Shoshani, *System Deadlocks* (1971)
 - Binary heap / priority queue: any algorithms textbook (e.g. CLRS, chapter 6)
 
-**AI usage:** AI was used to review the code, find concurrency bugs (data races,
-lost wake-ups, missing stop condition) and help write this README. All the
-code was read, tested and understood before submission.

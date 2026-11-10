@@ -1,6 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   monitor.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: enucci <enucci@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/11/10 21:54:23 by enucci            #+#    #+#             */
+/*   Updated: 2026/11/10 21:54:24 by enucci           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "struct.h"
 
-/* chiamata con print_mutex e stato_mutex bloccati */
 static int	coder_bruciato(t_sim *sim, t_coder *coder)
 {
 	long long	ora;
@@ -13,7 +24,6 @@ static int	coder_bruciato(t_sim *sim, t_coder *coder)
 	return (1);
 }
 
-/* chiamata con stato_mutex bloccato */
 static int	tutti_completati(t_sim *sim)
 {
 	int	i;

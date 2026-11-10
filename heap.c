@@ -1,6 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heap.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: enucci <enucci@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/11/10 21:53:56 by enucci            #+#    #+#             */
+/*   Updated: 2026/11/10 21:53:57 by enucci           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "struct.h"
 
-/* a viene prima di b: priorita minore, a parita id minore */
 int	heap_precede(t_richiesta *a, t_richiesta *b)
 {
 	if (a->priorita != b->priorita)

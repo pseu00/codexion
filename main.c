@@ -1,6 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: enucci <enucci@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/11/10 21:54:14 by enucci            #+#    #+#             */
+/*   Updated: 2026/11/10 21:54:15 by enucci           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "struct.h"
 
-/* usata solo se la creazione di un thread fallisce */
 static void	ferma_simulazione(t_sim *sim)
 {
 	pthread_mutex_lock(&sim->stato_mutex);

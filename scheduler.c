@@ -1,10 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   scheduler.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: enucci <enucci@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/11/10 21:54:43 by enucci            #+#    #+#             */
+/*   Updated: 2026/11/10 21:54:44 by enucci           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "struct.h"
 
-/*
-** Da chiamare con queue_mutex bloccato.
-** FIFO: priorita = ordine di arrivo.
-** EDF: priorita = ultimo_avvio_compilazione + tempo_burnout.
-*/
 void	entra_in_coda(t_sim *sim, t_coder *coder)
 {
 	t_richiesta	*richiesta;

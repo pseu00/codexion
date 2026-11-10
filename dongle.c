@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   dongle.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: enucci <enucci@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/11/10 21:53:43 by enucci            #+#    #+#             */
+/*   Updated: 2026/11/10 21:53:44 by enucci           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "struct.h"
 
 static void	imposta_dongle(t_dongle *dongle, int bloccato, long long ora)
@@ -9,7 +21,6 @@ static void	imposta_dongle(t_dongle *dongle, int bloccato, long long ora)
 	pthread_mutex_unlock(&dongle->mutex);
 }
 
-/* -1 se il dongle e in uso, altrimenti i ms di cooldown rimanenti */
 static long long	attesa_dongle(t_dongle *dongle, long long cooldown)
 {
 	long long	attesa;
@@ -42,10 +53,6 @@ static long long	calcola_cooldown(t_coder *coder)
 	return (wait_dx);
 }
 
-/*
-** Da chiamare con queue_mutex bloccato.
-** 0 = dongle presi, -1 = aspettare un segnale, >0 = ms di cooldown.
-*/
 long long	prova_a_prendere_dongles(t_coder *coder)
 {
 	long long	attesa;

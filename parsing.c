@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: enucci <enucci@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/11/10 21:54:30 by enucci            #+#    #+#             */
+/*   Updated: 2026/11/10 21:54:31 by enucci           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "struct.h"
 
 static int	errore(char *messaggio)
@@ -6,7 +18,6 @@ static int	errore(char *messaggio)
 	return (1);
 }
 
-/* accetta solo cifre, niente stringa vuota, niente overflow di int */
 static int	converti_numero(char *str, long long *valore)
 {
 	int	i;

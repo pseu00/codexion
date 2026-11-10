@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: enucci <enucci@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/11/10 21:54:49 by enucci            #+#    #+#             */
+/*   Updated: 2026/11/10 21:54:50 by enucci           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "struct.h"
 
 long long	get_time(void)
@@ -8,7 +20,6 @@ long long	get_time(void)
 	return ((long long)time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
-/* dorme a piccoli passi e si interrompe se la simulazione e finita */
 void	ft_usleep(t_sim *sim, long long time_in_ms)
 {
 	long long	start;

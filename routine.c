@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   routine.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: enucci <enucci@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/11/10 21:54:36 by enucci            #+#    #+#             */
+/*   Updated: 2026/11/10 21:54:37 by enucci           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "struct.h"
 
 void	esegui_debug(t_coder *coder)
@@ -12,7 +24,6 @@ void	esegui_refactoring(t_coder *coder)
 	ft_usleep(coder->sim, coder->sim->tempo_refactoring);
 }
 
-/* un solo coder ha un solo dongle: non puo compilare e va in burnout */
 static void	coder_solitario(t_coder *coder)
 {
 	stampa_stato(coder, "has taken a dongle");

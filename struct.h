@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   struct.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: enucci <enucci@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/11/10 21:53:13 by enucci            #+#    #+#             */
+/*   Updated: 2026/11/10 21:53:14 by enucci           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef STRUCT_H
 # define STRUCT_H
 
@@ -16,7 +28,6 @@ typedef struct s_dongle		t_dongle;
 typedef struct s_coder		t_coder;
 typedef struct s_richiesta	t_richiesta;
 
-/* libero: orario di quando e stato liberato (0 = mai usato) */
 struct s_dongle
 {
 	int				id;
@@ -26,7 +37,6 @@ struct s_dongle
 	pthread_cond_t	cond;
 };
 
-/* elemento della coda di priorita (heap) */
 struct s_richiesta
 {
 	int			id_coder;
@@ -44,12 +54,6 @@ struct s_coder
 	t_sim		*sim;
 };
 
-/*
-** print_mutex protegge l'output,
-** stato_mutex protegge sim_finita, num_compilazioni e
-** ultimo_avvio_compilazione (letti dal monitor),
-** queue_mutex protegge la coda di attesa (heap).
-*/
 struct s_sim
 {
 	int				num_coders;
